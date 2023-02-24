@@ -3,7 +3,7 @@ package basic.class03;
 import basic.class02.Code03_BubbleSort;
 import basic.utils.ArrayUtils;
 
-public class Code01_BinarySearchLastSmaller {
+public class Code03_BinarySearchLastSmaller {
 
     /**
      * 找到数组中最后一个小于等于 x 的位置

@@ -3,7 +3,7 @@ package basic.class03;
 import basic.class02.Code03_BubbleSort;
 import basic.utils.ArrayUtils;
 
-public class Code01_BinarySearchFirstBigger {
+public class Code02_BinarySearchFirstBigger {
 
     /**
      * 找到数组中第一个大于等于 x 的位置
