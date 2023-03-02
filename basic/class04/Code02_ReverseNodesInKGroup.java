@@ -14,47 +14,40 @@ public class Code02_ReverseNodesInKGroup {
         return cur;
     }
 
-    public static ListNode reverse(ListNode node, ListNode end) {
+    public static void reverse(ListNode start, ListNode end) {
+        ListNode nextGroup = end != null ? end.next : null;
+
         ListNode prev = null;
-        ListNode next = node;
-        while (node != end) {
-            next = node.next;
-            node.next = prev;
-            prev = node;
-            node = next;
+        ListNode current = start;
+        ListNode next;
+        while (current != nextGroup) {
+            next = current.next;
+            current.next = prev;
+            prev = current;
+            current = next;
         }
-        return prev;
+        start.next = nextGroup;
     }
 
     public static ListNode reverseKGroup(ListNode head, int k) {
-        ListNode oldTail = getKGroupTail(head, k);
-        if(oldTail == null) {
+        ListNode tail = getKGroupTail(head, k);
+        if(tail == null) {
             return head;
         }
 
-        // 暂存下一组
-        ListNode nextGroup = oldTail.next;
+        reverse(head, tail);
+        ListNode result = tail;
 
-        ListNode result = reverse(head, nextGroup);
-
-        ListNode newHead = result;
-        ListNode prevGroupTail = head;
-
-        while(nextGroup != null) {
-            head = nextGroup;
-            oldTail = getKGroupTail(head, k);
-            if(oldTail == null) {
-                // 前一组尾节点指向当前组新头结点
-                prevGroupTail.next = head;
+        ListNode prev = head;
+        while(prev.next != null) {
+            head = prev.next;
+            tail = getKGroupTail(head, k);
+            if(tail == null) {
                 break;
             } else {
-                // 暂存下一组第一个
-                nextGroup = oldTail.next;
-                newHead = reverse(head, nextGroup);
-                // 前一组尾节点指向当前组新头结点
-                prevGroupTail.next = newHead;
-                // 新的尾节点就是原来的头结点
-                prevGroupTail = head;
+                reverse(head, tail);
+                prev.next = tail;
+                prev = head;
             }
         }
 
