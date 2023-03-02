@@ -6,19 +6,6 @@ public class Code03_AddTwoNumbers {
         public ListNode next;
     }
 
-    public static ListNode reverseList(ListNode head) {
-        ListNode prev = null;
-        ListNode next = head;
-        while (next != null) {
-            next = head.next;
-            head.next = prev;
-            prev = head;
-            head = next;
-        }
-
-        return prev;
-    }
-
     public static int getLength(ListNode head) {
         int len = 0;
         while (head != null) {
@@ -34,11 +21,7 @@ public class Code03_AddTwoNumbers {
         }
 
         ListNode longNode = getLength(node1) > getLength(node2) ? node1 : node2;
-
         node1 = longNode == node1 ? node2 : node1;
-
-        longNode = reverseList(longNode);
-        node1 = reverseList(node1);
 
         ListNode result = longNode;
         int overflow = 0;
@@ -57,8 +40,7 @@ public class Code03_AddTwoNumbers {
                     longNode.next = new ListNode();
                     longNode.next.val = overflow;
                 }
-                System.gc();
-                return reverseList(result);
+                return result;
             }
             longNode = longNode.next;
             node1 = node1 == null ? null : node1.next;
