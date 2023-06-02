@@ -3,6 +3,8 @@ package basic.class06;
 import basic.utils.ArrayUtils;
 
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Hashtable;
 
 public class Code05_ConstructBinaryTreeFromPreorderAndInorderTraversal {
     public class TreeNode {
@@ -28,11 +30,15 @@ public class Code05_ConstructBinaryTreeFromPreorderAndInorderTraversal {
         if (preorder.length == 0 || inorder.length == 0) {
             return null;
         }
+        HashMap<Integer, Integer> rootIndexMap = new HashMap<>();
+        for (int i = 0; i < inorder.length; i++) {
+            rootIndexMap.put(inorder[i], i);
+        }
 
-        return buildTree(preorder, 0, preorder.length - 1, inorder, 0, inorder.length - 1);
+        return buildTree(preorder, 0, preorder.length - 1, inorder, 0, inorder.length - 1, rootIndexMap);
     }
 
-    public TreeNode buildTree(int[] preorder, int L1, int R1, int[] inorder, int L2, int R2) {
+    public TreeNode buildTree(int[] preorder, int L1, int R1, int[] inorder, int L2, int R2, HashMap<Integer, Integer> rootIndexMap) {
         if (L1 < 0 || L2 < 0 || L1 > R1 || L2 > R2 || R1 > preorder.length - 1 || R2 > inorder.length - 1) {
             return null;
         }
@@ -41,15 +47,12 @@ public class Code05_ConstructBinaryTreeFromPreorderAndInorderTraversal {
             return new TreeNode(preorder[L1]);
         }
 
-        int rootIn = L2;
-        while (inorder[rootIn] != preorder[L1]) {
-            rootIn++;
-        }
+        int rootIn = rootIndexMap.get(preorder[L1]);
 
         return new TreeNode(
-                preorder[1],
-                buildTree(preorder, L1 + 1, L1 + rootIn - L2, inorder, L2, rootIn - 1),
-                buildTree(preorder, L1 + rootIn - L2 + 1, R1, inorder, rootIn + 1, R2)
+                preorder[L1],
+                buildTree(preorder, L1 + 1, L1 + rootIn - L2, inorder, L2, rootIn - 1, rootIndexMap),
+                buildTree(preorder, L1 + rootIn - L2 + 1, R1, inorder, rootIn + 1, R2, rootIndexMap)
         );
     }
 
