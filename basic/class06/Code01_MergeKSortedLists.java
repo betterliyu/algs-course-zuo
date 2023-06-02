@@ -6,25 +6,7 @@ import java.util.Comparator;
 import java.util.PriorityQueue;
 
 public class Code01_MergeKSortedLists {
-    public class ListNode {
-        int val;
-        ListNode next;
-
-        ListNode() {
-        }
-
-        ListNode(int val) {
-            this.val = val;
-        }
-
-        ListNode(int val, ListNode next) {
-            this.val = val;
-            this.next = next;
-        }
-    }
-
-
-    public class ListNodeComparator implements Comparator<ListNode> {
+    public static class ListNodeComparator implements Comparator<ListNode> {
         @Override
         public int compare(ListNode o1, ListNode o2) {
             return o1.val - o2.val;
